@@ -1,3 +1,12 @@
+// Create a Node JS Application that accepts command line parameters thus that a user can check their:
+
+// - Computer Architecture
+// - Computer CPU's
+// - Computer RAM (total and available)
+// - Computer Disk Space (total and available)
+// - Computer Hostname
+// - Computer IP Address
+
 var CliModuleClass = require('./CliModuleClass');
 
 var os = require('os');
@@ -28,6 +37,13 @@ let simpleCli = new CliModuleClass("simpleCli", [{
     }
 },
 {
+    Switch: "-hdd",
+    Message: "Returns the free and total amount of disk space.",
+    CallBack: function (Data) {
+        console.log(`Disk space: in development`);
+    }
+},
+{
     Switch: "-hostname",
     Message: "Returns the host name of the operating system as a string.",
     CallBack: function (Data) {
@@ -36,7 +52,7 @@ let simpleCli = new CliModuleClass("simpleCli", [{
 },
 {
     Switch: "-ip",
-    Message: "The assigned IPv4 or IPv6 address.",
+    Message: "Returns the assigned IPv4 address.",
     CallBack: function (Data) {
         const networks = os.networkInterfaces();
 
@@ -54,7 +70,8 @@ let simpleCli = new CliModuleClass("simpleCli", [{
         console.log(`-arch: Returns the operating system CPU architecture for which the Node.js binary was compiled. Possible values are 'arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 's390', 's390x', 'x32', and 'x64'.
 -cpu: Returns an array of objects containing information about each logical CPU core.
 -ram: Returns the free and total amount of system memory in bytes as an integer.
--hostname: Returns the host name of the operating system as a string.`);
+-hostname: Returns the host name of the operating system as a string.
+-ip: Returns the assigned IPv4 address.`);
     }
 }])
 
