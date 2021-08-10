@@ -7,9 +7,10 @@
 // - Computer Hostname
 // - Computer IP Address
 
-var CliModuleClass = require('./CliModuleClass');
+const CliModuleClass = require('./CliModuleClass');
 
-var os = require('os');
+const os = require('os');
+const byteSize = require('byte-size');
 
 let simpleCli = new CliModuleClass("simpleCli", [{
     Switch: "-arch",
@@ -33,14 +34,25 @@ let simpleCli = new CliModuleClass("simpleCli", [{
     Switch: "-ram",
     Message: "Returns the free and total amount of system memory in bytes as an integer.",
     CallBack: function (Data) {
-        console.log(`RAM: ${os.freemem()} / ${os.totalmem()}`);
+        console.log(`RAM: ${byteSize(os.freemem())} / ${byteSize(os.totalmem())}`);
     }
 },
 {
     Switch: "-hdd",
     Message: "Returns the free and total amount of disk space.",
     CallBack: function (Data) {
-        console.log(`Disk space: in development`);
+        const checkDiskSpace = require('check-disk-space').default;
+
+        checkDiskSpace(__dirname).then((diskSpace) => {
+            console.log(`Disk space: ${byteSize(diskSpace.free)} / ${byteSize(diskSpace.size)}`);
+
+            // {
+            //     diskPath: 'C:',
+            //     free: 99999999,
+            //     size: 99999999
+            // }
+            // Note: `free` and `size` are in bytes
+        });
     }
 },
 {
